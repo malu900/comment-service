@@ -7,12 +7,28 @@ spring:
       #        mode: event
       config:
         enabled: true
-#        name: comment-service
-#        namespace: tweetlocal
-#        sources:
-#          - name: comment-service
+        name: comment-service
+        namespace: tweetlocal
+        sources:
+          - name: comment-service
       enabled: true
 #        monitoring-config-maps: true
 #        mode: event
 server:
   port: 8082
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: "/like/actuator"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
