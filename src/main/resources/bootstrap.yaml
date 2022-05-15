@@ -14,3 +14,5 @@ spring:
       enabled: true
 #        monitoring-config-maps: true
 #        mode: event
+server:
+  port: 8082
