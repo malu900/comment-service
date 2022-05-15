@@ -1,0 +1,14 @@
+logging:
+  level:
+    com:
+      example:
+        commentservice: DEBUG
+spring:
+  application:
+    name: comment-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,refresh,keepalive,health
