@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class SchedularComponent {
 
-    @Autowired
+    final
     WelcomeConfiguration welcomeConfiguration;
+
+    public SchedularComponent(WelcomeConfiguration welcomeConfiguration) {
+        this.welcomeConfiguration = welcomeConfiguration;
+    }
 
     @Scheduled(fixedDelay = 1000)
     public void schedule() {

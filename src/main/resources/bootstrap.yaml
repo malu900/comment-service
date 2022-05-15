@@ -4,11 +4,13 @@ spring:
       config:
         enabled: true
         name: post-service
-#        namespace: tweetlocal
+        namespace: tweetlocal
         sources:
-          - namespace: tweetlocal
-            name: post-service
+#          - namespace: tweetlocal
+          - name: post-service
       reload:
         enabled: true
-        monitoring-config-maps: true
         mode: event
+      enabled: true
+#        monitoring-config-maps: true
+#        mode: event
