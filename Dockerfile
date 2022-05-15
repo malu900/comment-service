@@ -12,5 +12,5 @@ RUN mvn -B -f pom.xml clean package -DskipTests
 # production stage
 FROM openjdk:17-slim
 COPY --from=build /workspace/target/*.jar app.jar
-EXPOSE 8081
+EXPOSE 8082
 ENTRYPOINT ["java","-jar","app.jar"]
