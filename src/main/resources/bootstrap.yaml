@@ -2,15 +2,15 @@ spring:
   cloud:
     kubernetes:
       reload:
-        period: 1000
         enabled: true
-#        mode: event
+        monitoring-config-maps: true
+      #        mode: event
       config:
         enabled: true
-        name: comment-service
-        namespace: tweetlocal
-        sources:
-          - name: comment-service
+#        name: comment-service
+#        namespace: tweetlocal
+#        sources:
+#          - name: comment-service
       enabled: true
 #        monitoring-config-maps: true
 #        mode: event
