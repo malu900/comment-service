@@ -15,8 +15,9 @@ public class SchedularComponent {
         this.welcomeConfiguration = welcomeConfiguration;
     }
 
-    @Scheduled(fixedDelay = 100000)
+    @Scheduled(fixedDelay = 50000)
     public void schedule() {
+        System.out.print(System.getenv());
         System.out.println(welcomeConfiguration.getMessage());
     }
 }

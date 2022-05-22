@@ -3,15 +3,38 @@ package com.example.commentservice.service;
 
 import com.example.commentservice.model.Comment;
 import com.example.commentservice.repository.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
+@RequiredArgsConstructor
 public class CommentService {
-    @Autowired
     private final CommentRepository commentRepository;
+    private final MongoTemplate mongoTemplate;
+    private final MongoOperations mongoOperations;
+
+    public Comment createComment(Comment comment) {
+        return commentRepository.save(comment);
+    }
+    public Comment getComment(String id) {
+        Comment comment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Comment.class);
+
+        return comment;
+    }
+
+
+//    public Comment updateComment(Comment comment) {
+////        commentRepository.findOne(Query.query(Criteria.where("id").is(comment.getId())), Comment.class);
+////        Query query = new Query();
+////        query.addCriteria(Criteria.where("id").is(comment.getId()));
+////        Comment comment1 = commentRepository.findOne(query, Comment.class);
+//        return commentRepository.save(comment);
+//    }
 //    @Autowired
 //    private final RabbitTemplate rabbitTemplate;
 //
@@ -23,27 +46,16 @@ public class CommentService {
 //    private String routingkeyComment;
 
 //   public CommentService(CommentRepository commentRepository, RabbitTemplate rabbitTemplate)
-    public CommentService(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-//        this.rabbitTemplate = rabbitTemplate;
-    }
 
-    public Comment createComment(Comment comment) {
-//        sendCommentMessage(comment.getTweetId());
-        return commentRepository.save(comment);
-    }
-    public Optional<Comment> getComment(Long id) {
-        return commentRepository.findById(id);
-    }
 //    public void deleteTweet(Long id) {
 //        tweetRepository.deleteById(id);
 //    }
-//    public Tweet updateTweet(Tweet tweet, Long id) {
-//        Optional<Tweet> tweetToUpdate = tweetRepository.findById(id);
-//        if(tweetToUpdate.isEmpty()) return null;
-//        Tweet _tweet  = tweetToUpdate.get();
-//        _tweet.setDescription(tweet.getDescription());
-//        return tweetRepository.save(_tweet);
+//    public Comment updateTweet(Comment comment, String id) {
+//        Optional<Comment> commentUpdate = commentRepository.findById(id);
+////        if(tweetToUpdate.isEmpty()) return null;
+////        Tweet _tweet  = tweetToUpdate.get();
+////        _tweet.setDescription(tweet.getDescription());
+////        return tweetRepository.save(_tweet);
 //    }
 
 //    public void sendCommentMessage(Long tweetId){

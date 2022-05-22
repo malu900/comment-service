@@ -3,6 +3,7 @@ package com.example.commentservice.controller;
 
 import com.example.commentservice.model.Comment;
 import com.example.commentservice.service.CommentService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,18 @@ public class CommentController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getTweetById(@PathVariable Long id) {
-        Optional<Comment> comment = commentService.getComment(id);
-        if (comment.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    public ResponseEntity<?> getTweetById(@PathVariable String id) {
+        Comment comment = commentService.getComment(id);
+        if (comment == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.ok().body(comment);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateComment(Comment params) {
+        System.out.println(params);
+        Comment comment = commentService.createComment(params);
+        if(comment == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+
     }
 }
