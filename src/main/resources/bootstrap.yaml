@@ -1,16 +1,19 @@
 spring:
   cloud:
     kubernetes:
+      enabled: true
       reload:
         enabled: true
         monitoring-config-maps: true
+        monitoring-secrets: true
       config:
         enabled: true
-        name: comment-service
-        namespace: tweetlocal
-        sources:
-          - name: comment-service
-      enabled: true
+#        name: comment-service
+#        namespace: tweetlocal
+#        sources:
+#          - name: comment-service
+      secrets:
+        enabled: true
 server:
   port: 8082
 management:
@@ -19,7 +22,15 @@ management:
       exposure:
         include: "*"
       base-path: "/comment/actuator"
+  metrics:
+    tags:
+      application: comment-service
+    export:
+      prometheus:
+        enabled: true
   endpoint:
+    prometheus:
+      enabled: true
     health:
       probes:
         enabled: true
