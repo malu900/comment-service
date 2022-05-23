@@ -25,7 +25,8 @@ public class Comment {
     @Id private String id;
     private String message;
     private Long tweetid;
-    @Indexed @CreatedDate private Date created = new Date();
+    @Indexed
+    @CreatedDate private Date created = new Date();
 
     public Comment(String message) {
         this.message = message;
