@@ -25,7 +25,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getTweetById(@PathVariable String id) {
         Comment comment = commentService.getComment(id);
