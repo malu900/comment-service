@@ -21,7 +21,7 @@ public class WelcomeController {
     }
     @GetMapping("test")
     public String welcomee(){
-        System.out.println(message);
+        System.out.println(testprop);
         return message;
     }
 }

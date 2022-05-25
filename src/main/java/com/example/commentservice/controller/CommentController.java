@@ -38,6 +38,5 @@ public class CommentController {
         Comment comment = commentService.createComment(params);
         if(comment == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
-
     }
 }
