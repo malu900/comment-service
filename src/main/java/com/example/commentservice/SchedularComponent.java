@@ -20,7 +20,7 @@ public class SchedularComponent {
     private String message;
     @Value("${welcome.message:NOT CONFIGMAP}")
     private String testprop;
-    @Value("${spring.kafka.bootstrap-servers:NOT CONFIGMAP}")
+    @Value("${spring.kafka.consumer.bootstrap-servers:NOT CONFIGMAP}")
     private String bootstraps;
 //    @GetMapping
 //    public String welcome(){

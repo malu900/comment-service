@@ -16,10 +16,6 @@ spring:
         monitoring-secrets: true
       config:
         enabled: true
-#        name: comment-service
-#        namespace: tweetlocal
-#        sources:
-#          - name: comment-service
       secrets:
         enabled: true
 server:
