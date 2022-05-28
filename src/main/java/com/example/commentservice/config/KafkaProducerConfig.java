@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Configuration
 public class KafkaProducerConfig {
-    @Value("${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers:NO BOOTSTRAP SERVERS FOUND}")
     private String bootstrapServers;
 
     // conf to pass to a producer factory

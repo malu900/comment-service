@@ -6,10 +6,9 @@ import com.example.commentservice.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,12 +18,11 @@ public class CommentService {
     private final MongoOperations mongoOperations;
 
     public Comment createComment(Comment comment) {
-        return commentRepository.save(comment);
+        return mongoTemplate.save(comment, "comment");
     }
-    public Comment getComment(String id) {
-        Comment comment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Comment.class);
-
-        return comment;
+    public Optional<Comment> getComment(String id) {
+        //        Comment comment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Comment.class);
+        return commentRepository.findById(id);
     }
 
 

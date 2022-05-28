@@ -11,9 +11,11 @@ public class KafkaTopicConfig {
 
     @Bean
     @Primary
-    public NewTopic amigsoscodeTopic(){
-        return TopicBuilder.name("amigoscode")
+    public NewTopic codeTopic(){
+        return TopicBuilder.name("topicOne").replicas(2).partitions(4)
                 .build();
     }
+
+
 }
 

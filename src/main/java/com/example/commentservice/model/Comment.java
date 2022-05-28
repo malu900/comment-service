@@ -1,18 +1,13 @@
 package com.example.commentservice.model;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-//import org.hibernate.annotations.CreationTimestamp;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import javax.persistence.Id;
+import javax.persistence.Version;
 import java.util.Date;
 //import java.util.Date;
 
