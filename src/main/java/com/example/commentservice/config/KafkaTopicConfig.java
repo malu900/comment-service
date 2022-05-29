@@ -12,10 +12,8 @@ public class KafkaTopicConfig {
     @Bean
     @Primary
     public NewTopic codeTopic(){
-        return TopicBuilder.name("topicOne").replicas(2).partitions(4)
+        return TopicBuilder.name("topicTwo").replicas(2).partitions(4)
                 .build();
     }
-
-
 }
 
