@@ -21,7 +21,12 @@ public class CommentService {
     private final KafkaTemplate<String, CommentEventModel> kafkaTemplate;
 
     public Comment createComment(Comment comment) {
-        return mongoTemplate.save(comment, "comment");
+        Comment newComment = mongoTemplate.save(comment, "comment");
+        CommentEventModel commentEventModel = new CommentEventModel(newComment.getId(), newComment.getMessage(), newComment.getTweetid(), newComment.getCreated());
+        kafkaTemplate.send("topicTwo", commentEventModel);
+//        return mongoTemplate.save(comment, "comment");
+
+        return newComment;
     }
 
     public Optional<Comment> getComment(String id) {
@@ -37,14 +42,14 @@ public class CommentService {
         updateComment.setMessage(comment.getMessage());
         updateComment.setCreated(updateComment.getCreated());
         updateComment.setTweetid(updateComment.getTweetid());
+        return commentRepository.save(updateComment);
+    }
 
 
 //        commentRepository.findOne(Query.query(Criteria.where("id").is(comment.getId())), Comment.class);
 //        Query query = new Query();
 //        query.addCriteria(Criteria.where("id").is(comment.getId()));
 //        Comment comment1 = commentRepository.findOne(query, Comment.class);
-        return commentRepository.save(updateComment);
-    }
 //    @Autowired
 //    private final RabbitTemplate rabbitTemplate;
 //
