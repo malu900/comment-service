@@ -16,10 +16,9 @@ import java.util.Date;
 //@JsonSerialize
 public class Comment {
 
-    @Version private Long version;
     @Id private String id;
     private String message;
-    private Long tweetid;
+    private String tweetid;
     @Indexed
     @CreatedDate private Date created = new Date();
 
