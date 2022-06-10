@@ -19,4 +19,5 @@ public class CommentEventModel {
     private String message;
     private String tweetid;
     private Date created;
+    private String userId;
 }

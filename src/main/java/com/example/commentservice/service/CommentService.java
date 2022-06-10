@@ -22,11 +22,11 @@ public class CommentService {
 
     public Comment createComment(Comment comment) {
         Comment newComment = mongoTemplate.save(comment, "comment");
-        CommentEventModel commentEventModel = new CommentEventModel(newComment.getId(), newComment.getMessage(), newComment.getTweetid(), newComment.getCreated());
+        CommentEventModel commentEventModel = new CommentEventModel(newComment.getId(), newComment.getMessage(), newComment.getTweetid(), newComment.getCreated(), newComment.getUserId());
         kafkaTemplate.send("topicTwo", commentEventModel);
-//        return mongoTemplate.save(comment, "comment");
+        return mongoTemplate.save(comment, "comment");
 
-        return newComment;
+//        return newComment;
     }
 
     public Optional<Comment> getComment(String id) {
@@ -40,8 +40,9 @@ public class CommentService {
         Comment updateComment = c.get();
         updateComment.setId(comment.getId());
         updateComment.setMessage(comment.getMessage());
-        updateComment.setCreated(updateComment.getCreated());
-        updateComment.setTweetid(updateComment.getTweetid());
+        updateComment.setCreated(comment.getCreated());
+        updateComment.setTweetid(comment.getTweetid());
+        updateComment.setUserId(comment.getUserId());
         return commentRepository.save(updateComment);
     }
 
