@@ -35,8 +35,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify sonar:sonar -Dsonar.projectKey=malu900_comment-service -Dsonar.organization=malu900 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
 #      run: mvb -B verify sonar:sonar -Dsonar.projectkey=malu900_comment-service -Dsonar.host.ur=https://sonarcloud.io -Dsonar.login=d397b23eb0dfbb6081f12b9143d454bc1c3cef2d
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=malu900_comment-service --debug
+#      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=malu900_comment-service --debug
 
 
     - name: Maven Package
