@@ -7,6 +7,7 @@ import com.example.commentservice.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,6 @@ public class CommentService {
         kafkaTemplate.send("topicTwo", commentEventModel);
         return mongoTemplate.save(comment, "comment");
 
-//        return newComment;
     }
 
     public Optional<Comment> getComment(String id) {
@@ -46,6 +46,10 @@ public class CommentService {
         return commentRepository.save(updateComment);
     }
 
+    @KafkaListener(topics = "sentimentPython", groupId = "group_id")
+    void getMessage(String message) {
+        System.out.println(message);
+    }
 
 //        commentRepository.findOne(Query.query(Criteria.where("id").is(comment.getId())), Comment.class);
 //        Query query = new Query();
