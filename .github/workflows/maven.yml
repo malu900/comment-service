@@ -65,3 +65,15 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/comment-service
       - name: Docker push
         run: docker push ${{secrets.DOCKER_USER}}/comment-service
+  digitalocean:
+    name: Install doctl
+    needs: [ deploy ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save ${{secrets.CLUSTER_KEY}}
+      - name: Kubernetes rollout the latest image
+        run: kubectl -n comment rollout restart deployment comment-service
