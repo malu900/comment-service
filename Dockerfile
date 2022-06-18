@@ -1,7 +1,9 @@
-# FROM openjdk:11-jdk-slim
-# ARG JAR_FILE=target/*.jar
-# COPY ${JAR_FILE} app.jar
-# ENTRYPOINT ["java","-jar","/app.jar"]
+#FROM openjdk:17-jdk-slim
+##FROM openjdk:17
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} app.jar
+#EXPOSE 8082
+#ENTRYPOINT ["java","-jar","/app.jar"]
 # build stage
 FROM maven:3.6.3-openjdk-17-slim as build
 RUN mkdir -p /workspace

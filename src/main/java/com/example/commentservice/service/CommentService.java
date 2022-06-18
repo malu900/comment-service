@@ -1,15 +1,17 @@
 package com.example.commentservice.service;
 
 
+import com.example.commentservice.component.CommentEventModel;
 import com.example.commentservice.model.Comment;
 import com.example.commentservice.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,24 +19,42 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MongoTemplate mongoTemplate;
     private final MongoOperations mongoOperations;
+    private final KafkaTemplate<String, CommentEventModel> kafkaTemplate;
 
     public Comment createComment(Comment comment) {
-        return commentRepository.save(comment);
+        Comment newComment = mongoTemplate.save(comment, "comment");
+        CommentEventModel commentEventModel = new CommentEventModel(newComment.getId(), newComment.getMessage(), newComment.getTweetid(), newComment.getCreated(), newComment.getUserId());
+        kafkaTemplate.send("topicTwo", commentEventModel);
+        return mongoTemplate.save(comment, "comment");
+
     }
-    public Comment getComment(String id) {
-        Comment comment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Comment.class);
 
-        return comment;
+    public Optional<Comment> getComment(String id) {
+        return commentRepository.findById(id);
     }
 
 
-//    public Comment updateComment(Comment comment) {
-////        commentRepository.findOne(Query.query(Criteria.where("id").is(comment.getId())), Comment.class);
-////        Query query = new Query();
-////        query.addCriteria(Criteria.where("id").is(comment.getId()));
-////        Comment comment1 = commentRepository.findOne(query, Comment.class);
-//        return commentRepository.save(comment);
-//    }
+    public Comment updateComment(Comment comment) {
+        Optional<Comment> c = commentRepository.getCommentById(comment.getId());
+        if(c.isEmpty()) return null;
+        Comment updateComment = c.get();
+        updateComment.setId(comment.getId());
+        updateComment.setMessage(comment.getMessage());
+        updateComment.setCreated(comment.getCreated());
+        updateComment.setTweetid(comment.getTweetid());
+        updateComment.setUserId(comment.getUserId());
+        return commentRepository.save(updateComment);
+    }
+
+    @KafkaListener(topics = "sentimentPython", groupId = "group_id")
+    void getMessage(String message) {
+        System.out.println(message);
+    }
+
+//        commentRepository.findOne(Query.query(Criteria.where("id").is(comment.getId())), Comment.class);
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("id").is(comment.getId()));
+//        Comment comment1 = commentRepository.findOne(query, Comment.class);
 //    @Autowired
 //    private final RabbitTemplate rabbitTemplate;
 //
